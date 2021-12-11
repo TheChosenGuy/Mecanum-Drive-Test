@@ -22,6 +22,7 @@ public class DriveByJoysticks extends CommandBase {
   private final Drivetrain drivetrain;
   public static boolean useJoysticks = true;
   private boolean hasBeenReleased = true;
+  private double zSpeed = 0;
 
   /**
    * Creates a new ExampleCommand.
@@ -49,6 +50,10 @@ public class DriveByJoysticks extends CommandBase {
       }
     }
     else hasBeenReleased = true;
+    
+    if(Buttons.USB_BUTTON_X.get()) zSpeed = 0.2;
+    else if(Buttons.USB_BUTTON_Y.get()) zSpeed = -0.2;
+    else zSpeed = 0;
 
     if(useJoysticks) drivetrain.move(
       Controllers.RIGHT_JOYSTICK.getX(),
@@ -58,7 +63,13 @@ public class DriveByJoysticks extends CommandBase {
       Controllers.GAMEPAD.getX(Hand.kLeft) * -1,
       Controllers.GAMEPAD.getY(Hand.kLeft),
       Controllers.GAMEPAD.getX(Hand.kRight));
-  }
+    if(Buttons.RIGHT_BUMPER.get()) {
+      drivetrain.move(
+        Controllers.USB_JOYSTICK.getX() *.2, 
+        Controllers.USB_JOYSTICK.getY() *-.2,
+        zSpeed);
+    }
+  } 
 
   // Called once the command ends or is interrupted.
   @Override

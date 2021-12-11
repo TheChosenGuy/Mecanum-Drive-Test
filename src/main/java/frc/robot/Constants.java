@@ -28,8 +28,12 @@ public final class Constants {
     public static final class Controllers {
         public static final Joystick RIGHT_JOYSTICK = new Joystick(0);
         public static final XboxController GAMEPAD = new XboxController(1);
+        public static final Joystick USB_JOYSTICK = new Joystick(2);
     }
     public static final class Buttons {
         public static final JoystickButton BUTTON_ONE = new JoystickButton(Controllers.RIGHT_JOYSTICK, 1);
+        public static final JoystickButton RIGHT_BUMPER = new JoystickButton(Controllers.USB_JOYSTICK, 7);
+        public static final JoystickButton USB_BUTTON_X = new JoystickButton(Controllers.USB_JOYSTICK, 1);
+        public static final JoystickButton USB_BUTTON_Y = new JoystickButton(Controllers.USB_JOYSTICK, 4);
     }
 }
