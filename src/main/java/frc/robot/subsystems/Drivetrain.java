@@ -36,6 +36,7 @@ public class Drivetrain extends SubsystemBase {
 
     // mecanumDrive.setRightSideInverted(true); 
     mecanumDrive.setDeadband(0.1); // Adjust as needed
+    mecanumDrive.setMaxOutput(.5);
     
     // TODO: Truncate or round speeds to 0.01 
     mecanumDrive.driveCartesian(ySpeed, xSpeed, zRotation);
