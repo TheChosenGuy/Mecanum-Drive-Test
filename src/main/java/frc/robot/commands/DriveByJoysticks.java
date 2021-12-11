@@ -4,14 +4,24 @@
 
 package frc.robot.commands;
 
-import frc.robot.Constants;
+import frc.robot.Constants.Buttons;
+import frc.robot.Constants.Controllers;
 import frc.robot.subsystems.Drivetrain;
+import edu.wpi.first.wpilibj.GenericHID.Hand;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+
 
 /** An example command that uses an example subsystem. */
 public class DriveByJoysticks extends CommandBase {
+  
+  interface ToggelDriveMode{
+    void toggle();
+  }
+
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drivetrain drivetrain;
+  public static boolean useJoysticks = true;
+  private boolean hasBeenReleased = true;
 
   /**
    * Creates a new ExampleCommand.
@@ -32,10 +42,22 @@ public class DriveByJoysticks extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    drivetrain.move(
-      Constants.Joysticks.RIGHT_JOYSTICK.getX(),
-      Constants.Joysticks.RIGHT_JOYSTICK.getY(),
-      Constants.Joysticks.RIGHT_JOYSTICK.getZ()); // If not working try: Constants.Joysticks.RIGHT_JOYSTICK.getTwist());
+    if(Buttons.BUTTON_ONE.get()) {
+      if(hasBeenReleased) {
+        useJoysticks = !useJoysticks;
+        hasBeenReleased = false;
+      }
+    }
+    else hasBeenReleased = true;
+
+    if(useJoysticks) drivetrain.move(
+      Controllers.RIGHT_JOYSTICK.getX(),
+      Controllers.RIGHT_JOYSTICK.getY(),
+      Controllers.RIGHT_JOYSTICK.getZ());
+    else drivetrain.move(
+      Controllers.GAMEPAD.getX(Hand.kLeft) * -1,
+      Controllers.GAMEPAD.getY(Hand.kLeft),
+      Controllers.GAMEPAD.getX(Hand.kRight));
   }
 
   // Called once the command ends or is interrupted.
